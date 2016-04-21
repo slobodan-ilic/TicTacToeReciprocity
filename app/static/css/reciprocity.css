@@ -1,0 +1,21 @@
+.rc_title {
+    margin-top: 150px;
+    margin-bottom: 40px;
+}
+
+.rc_result, .rc_content {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.rc_tic_tac_col {
+    margin-top: 15px;
+}
+
+.rc_choice_row {
+    margin-bottom: 40px;
+}
+
+.rc_tic_tac_btn {
+    height: 80px;
+}

@@ -14,8 +14,20 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = (os.environ.get('DEV_DATABASE_URL') or
-                               'sqlite:///../ttt_recip.db')
+                               'sqlite:///../data-dev.db')
+    MAX_BOARD_SIZE = 10
+    MAX_DB_STRING_SIZE = MAX_BOARD_SIZE ** 2 * 4
+
+
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = (os.environ.get('DEV_DATABASE_URL') or
+                               'sqlite:///../data-test.db')
+    MAX_BOARD_SIZE = 10
+    MAX_DB_STRING_SIZE = MAX_BOARD_SIZE ** 2 * 4
 
 config = {
-    'development': DevelopmentConfig
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'default': DevelopmentConfig
 }

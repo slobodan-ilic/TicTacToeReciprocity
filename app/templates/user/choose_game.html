@@ -1,0 +1,33 @@
+{% extends "main/base.html" %}
+{% block content_body %}
+    <form method="post">
+        <div class="row rc_choice_row">
+            <div class="col-lg-6">
+                <button type="submit" name="btn_practice"
+                        class="btn btn-lg btn-block btn-primary">
+                    Practice Mode
+                </button>
+            </div>
+            <div class="col-lg-6">
+                <button type="submit" name="btn_simple_ai"
+                        class="btn btn-lg btn-block" disabled="disabled">
+                    Vs Comp (Easy)
+                </button>
+            </div>
+        </div>
+        <div class="row rc_choice_row">
+            <div class="col-lg-6">
+                <button class="btn btn-lg btn-block" name="btn_perfect_ai"
+                        disabled="disabled">
+                    Vs Comp (Hard)
+                </button>
+            </div>
+            <div class="col-lg-6">
+                <button class="btn btn-lg btn-block" name="btn_network"
+                        disabled="disabled">
+                    Network Player
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

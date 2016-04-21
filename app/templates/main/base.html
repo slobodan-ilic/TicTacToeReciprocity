@@ -1,0 +1,64 @@
+{% extends "bootstrap/base.html" %}
+{% block styles %}
+{{ super() }}
+    <link href="../../static/css/reciprocity.css" rel="stylesheet">
+{% endblock %}
+{% block navbar %}
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="https://reciprocitylabs.com/">
+                    Reciprocity Labs
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    {% if current_user.username %}
+                        <li><a>Welcome, {{ current_user.username }}!</a></li>
+                        <li><a href="/logout">Log Out</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+<div class="container">
+    {% block main_title %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="title rc_title text-center">
+                Tic Tac Toe - Reciprocity
+            </h1>
+        </div>
+    </div>
+    {% endblock %}
+    <div class="panel panel-primary">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">
+                &times;
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% block content_title %}{% endblock %}
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-offset-4 col-lg-4 rc_content">
+                    {% block content_body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        {% block content_footer %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+{% block content_body %}
+<form method="post">
+    {% for row in board %}
+        <div class="row">
+            {% for col in row %}
+                <div class="col-lg-4 rc_tic_tac_col">
+                    {% if col[2] != '-' %}
+                        <button type="submit" value="{{ col }}" name="btn_play"
+                                class="btn btn-block btn-default rc_tic_tac_btn"
+                                disabled="disabled">
+                            {% if col[2] == 'X' %}
+                                <i class="glyphicon glyphicon-remove"></i>
+                            {% elif col[2] == 'O' %}
+                                <i class="glyphicon glyphicon-unchecked"></i>
+                            {% endif %}
+                        </button>
+                    {% else %}
+                        <button type="submit" value="{{ col }}" name="btn_play"
+                                class="btn btn-block btn-default rc_tic_tac_btn">
+                            <i class="glyphicon glyphicon-minus"></i>
+                        </button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</form>
+{% endblock %}
+{% block content_footer %}
+    <div class="panel-footer text-right">
+        <form method="post">
+            <button type="submit" class="btn btn-large"
+                    name="btn_quit">
+                Quit
+            </button>
+        </form>
+    </div>
+{% endblock %}

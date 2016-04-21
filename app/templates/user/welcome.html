@@ -1,0 +1,31 @@
+{% extends "main/base.html" %}
+{% block content_body %}
+    <form method="post">
+        <div class="row rc_choice_row">
+            <div class="col-lg-6">
+                <button type="submit" name="btn_new_game"
+                        class="btn btn-lg btn-block btn-primary">
+                    New Game
+                </button>
+            </div>
+            <div class="col-lg-6">
+                <button type="submit" name="btn_my_games" disabled="disabled"
+                        class="btn btn-lg btn-block">
+                    My Games
+                </button>
+            </div>
+        </div>
+        <div class="row rc_choice_row">
+            <div class="col-lg-6">
+                <button class="btn btn-lg btn-block" disabled="disabled">
+                    test
+                </button>
+            </div>
+            <div class="col-lg-6">
+                <button class="btn btn-lg btn-block" disabled="disabled">
+                    test
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
