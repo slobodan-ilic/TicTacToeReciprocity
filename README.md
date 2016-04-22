@@ -6,11 +6,14 @@ application. The user needs to create an account and log in, in order
 to play. Once logged, the user has the possibility to choose between
 Practice, Simple and Hard modes. Network will be implemented soon.
 * Practice mode
+
 Single user plays both X and O moves.
 * Easy
+
 User plays an X move, and the computer immediately chooses a random
 option from available positions, and plays an O move.
 * Hard
+
 User plays an X move, and the computer immediately chooses best move,
 based on a lookup table strategy, and plays an O move.
 
