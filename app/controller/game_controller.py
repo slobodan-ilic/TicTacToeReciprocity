@@ -24,9 +24,20 @@ class GameController(object):
         else:
             playing = self._who_is_trying_to_play(user_id)
             turn = self.board_ctrl.result()
+            print "user_id: ", user_id
+            print "playing: ", playing
+            print "turn: ", turn
+            print "pos: ", pos
             if (playing, turn) in [(Player.X, Result.PlayerXTurn),
                                    (Player.O, Result.PlayerOTurn)]:
                 self.board_ctrl.play(pos)
+                res = self.board_ctrl.result()
+                if res == Result.PlayerXTurn:
+                    print "notifying x"
+                    self.player_x.notify()
+                elif res == Result.PlayerOTurn:
+                    print "notifying o"
+                    self.player_o.notify()
         return self.board_ctrl.result()
 
     def _init_from_game(self, game):

@@ -13,10 +13,11 @@ class SimpleAIPlayer(Player):
         self.play(pos)
 
     def _get_best_move(self):
-        m = self.game_controller.board.m
-        n = self.game_controller.board.n
+        m = self.game_controller.board_ctrl.board.m
+        n = self.game_controller.board_ctrl.board.n
         positions = range(m * n)
-        x_moves, o_moves = self.game_controller.board.get_moves()
-        available_moves = map(lambda x: x not in [x_moves, o_moves], positions)
-        pos = available_moves[randint(len(available_moves) - 1)]
-        return pos
+        x_moves, o_moves = self.game_controller.board_ctrl.get_moves()
+        available_moves = [x for x in positions if x not in [x_moves, o_moves]]
+        index = available_moves[randint(0, len(available_moves) - 1)]
+        i, j = index % m, index / m
+        return i, j, '-'

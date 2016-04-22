@@ -1,8 +1,5 @@
 from . import user
-from flask import render_template, redirect, request, session, url_for
-from app.controller.board_controller import BoardController
-from ast import literal_eval as make_tuple
-from app.model.enums.result import Result
+from flask import render_template, redirect, request, url_for
 from flask.ext.login import login_required
 
 

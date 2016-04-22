@@ -12,6 +12,6 @@ def choose_game():
     if request.method == 'POST':
         if 'btn_practice' in request.form:
             return redirect(url_for('game.start_simple_game'))
-        elif 'btn_my_games' in request.form:
-            return redirect(url_for('user.my_games'))
+        elif 'btn_simple_ai' in request.form:
+            return redirect(url_for('game.start_simple_ai_game'))
     return render_template('user/choose_game.html')

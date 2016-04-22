@@ -4,14 +4,22 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-3 text-center">
-                    {% if res == 'Won By X' %}
-                        {% set player = 'X' %}
-                    {% elif res == 'Won By O' %}
-                        {% set player = 'O' %}
+                    {% if res == 'Draw' %}
+                        <h1 class="rc_result">
+                            It's a draw!
+                        </h1>
+                    {% else %}
+                        {% if res == 'Won By X' %}
+                            {% set player = 'X' %}
+                        {% elif res == 'Won By O' %}
+                            {% set player = 'O' %}
+                        {% elif res == 'Draw' %}
+                            {% set player = 'O' %}
+                        {% endif %}
+                        <h1 class="rc_result">
+                            Player {{ player }} won the game!
+                        </h1>
                     {% endif %}
-                    <h1 class="rc_result">
-                        Player {{ player }} won the game!
-                    </h1>
                 </div>
             </div>
             <div class="row"><h1> </h1></div>

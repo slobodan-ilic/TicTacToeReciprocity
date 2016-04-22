@@ -22,6 +22,8 @@ class BoardController(object):
             return Result.WonByPlayerX
         elif self._did_player_win(Player.O):
             return Result.WonByPlayerO
+        elif self._is_draw():
+            return Result.Draw
         else:
             return self._get_player_turn()
 
@@ -58,6 +60,17 @@ class BoardController(object):
                     self._check_vertical(player) or
                     self._check_main_diagonal(player) or
                     self._check_secondary_diagonal(player))
+        else:
+            raise NotImplementedError("Must be 3x3 game.")
+
+    def _is_draw(self):
+        if self.board.m == 3 and self.board.n == 3:
+            n_max_allowed_moves = self.board.m * self.board.n
+            x_moves, o_moves = self._extract_moves_from_string()
+            n_played_moves = len(x_moves) + len(o_moves)
+            return (n_played_moves == n_max_allowed_moves and
+                    not self._did_player_win(Player.X) and
+                    not self._did_player_win(Player.O))
         else:
             raise NotImplementedError("Must be 3x3 game.")
 
