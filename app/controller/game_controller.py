@@ -40,6 +40,12 @@ class GameController(object):
                     self.player_o.notify()
         return self.board_ctrl.result()
 
+    def save_game(self):
+        pass
+
+    def quit_game(self):
+        dbm.delete_game_by_id(self.game.id)
+
     def _init_from_game(self, game):
         self.board_ctrl = BoardController(self.game.id)
         self.player_x = create_player(self.game.user_x_id, PlayerType.Human,
@@ -49,7 +55,7 @@ class GameController(object):
         elif self.game.type == GameType.HumanVsSimpleAI:
             self.player_o = create_player(self.game.user_o_id,
                                           PlayerType.SimpleAI, self)
-        self.board_ctrl = BoardController(self.game.board_id)
+        self.board_ctrl = BoardController(self.game.board.first().id)
 
     def _who_is_trying_to_play(self, user_id):
         if user_id == self.player_x.user_id:

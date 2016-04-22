@@ -50,7 +50,7 @@ class BoardController(object):
         else:
             return Result.IrregularMove
 
-        dbm.update_board_in_db(self.board)
+        dbm.update_board(self.board)
         return self.result()
 
     def _did_player_win(self, player):

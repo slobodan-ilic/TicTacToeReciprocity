@@ -21,10 +21,11 @@ def play():
             if game_ctrl.play(user_id, pos) in [Result.WonByPlayerO,
                                                 Result.WonByPlayerX,
                                                 Result.Draw]:
+                game_ctrl.save_game()
                 return redirect(url_for('game.result'))
         elif 'btn_quit' in request.form:
             session.pop('GAME_ID')
-            # TODO: Clean up
+            game_ctrl.quit_game()
             return redirect(url_for('user.welcome'))
         return redirect(url_for('game.play'))
     board = game_ctrl.board_ctrl.display_board()
