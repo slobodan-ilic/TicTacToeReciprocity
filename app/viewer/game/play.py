@@ -21,7 +21,6 @@ def play():
             if game_ctrl.play(user_id, pos) in [Result.WonByPlayerO,
                                                 Result.WonByPlayerX,
                                                 Result.Draw]:
-                game_ctrl.save_game()
                 return redirect(url_for('game.result'))
         elif 'btn_quit' in request.form:
             session.pop('GAME_ID')

@@ -2,6 +2,7 @@ from . import db
 from game import Game
 from board import Board
 from user import User
+from sqlalchemy import or_
 
 
 class DatabaseManager(object):
@@ -12,6 +13,11 @@ class DatabaseManager(object):
     @staticmethod
     def get_user_by_name(username):
         return User.query.filter_by(username=username).first()
+
+    @staticmethod
+    def get_all_user_ids():
+        for user in User.query:
+            yield user.id
 
     @staticmethod
     def get_game_by_id(game_id):
@@ -48,10 +54,7 @@ class DatabaseManager(object):
         game = Game(type=game_type, user_x_id=user_x_id, user_o_id=user_o_id)
         db.session.add(game)
         db.session.commit()
-        print "game: ", game
-        board = DatabaseManager.create_new_board(m, n, k, game.id)
-        # game = Game(type=game_type, user_x_id=user_x_id, user_o_id=user_o_id,
-        #             board_id=board.id)
+        DatabaseManager.create_new_board(m, n, k, game.id)
         return game
 
     @staticmethod
@@ -59,3 +62,9 @@ class DatabaseManager(object):
         game = Game.query.filter_by(id=game_id).first()
         db.session.delete(game)
         db.session.commit()
+
+    @staticmethod
+    def get_games_by_user_id(user_id):
+        games = Game.query.filter(or_(Game.user_x_id==user_id,
+                                      Game.user_o_id==user_id)).all()
+        return games

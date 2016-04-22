@@ -40,8 +40,13 @@ class GameController(object):
                     self.player_o.notify()
         return self.board_ctrl.result()
 
-    def save_game(self):
-        pass
+    def get_user_game_info(self, user_id):
+        if user_id == self.game.user_x_id:
+            played_as = Player.X
+        else:
+            played_as = Player.O
+        won_by = self.board_ctrl.result()
+        return self.game.id, played_as, won_by
 
     def quit_game(self):
         dbm.delete_game_by_id(self.game.id)

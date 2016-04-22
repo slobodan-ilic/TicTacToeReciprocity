@@ -9,7 +9,5 @@ class Game(db.Model):
     user_x_id = db.Column(db.Integer, db.ForeignKey('users.id'),
                           nullable=False)
     user_o_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    # board_id = db.Column(db.Integer, db.ForeignKey('boards.id'),
-    #                      nullable=False)
     board = db.relationship(
         'Board', backref='game', cascade='all, delete', lazy='dynamic')

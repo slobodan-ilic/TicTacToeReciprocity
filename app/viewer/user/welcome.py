@@ -11,4 +11,6 @@ def welcome():
             return redirect(url_for('user.choose_game'))
         elif 'btn_my_games' in request.form:
             return redirect(url_for('user.my_games'))
+        elif 'btn_ranking' in request.form:
+            return redirect(url_for('user.ranking'))
     return render_template('user/welcome.html')
