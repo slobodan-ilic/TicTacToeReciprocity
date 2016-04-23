@@ -1,4 +1,4 @@
-from ..model.enums.player import Player
+from ..model.enums.player_role import PlayerRole
 from ..model.enums.result import Result
 from ..model.db_manager import DatabaseManager as dbm
 
@@ -18,9 +18,9 @@ class BoardController(object):
     def result(self):
         if not self._is_consistent():
             return Result.NonConsistent
-        elif self._did_player_win(Player.X):
+        elif self._did_player_win(PlayerRole.X):
             return Result.WonByPlayerX
-        elif self._did_player_win(Player.O):
+        elif self._did_player_win(PlayerRole.O):
             return Result.WonByPlayerO
         elif self._is_draw():
             return Result.Draw
@@ -31,6 +31,40 @@ class BoardController(object):
         board_symbols = [[self._symbol_at(i, j) for j in range(self.board.n)]
                          for i in range(self.board.m)]
         return board_symbols
+
+    def display_board_as_string(self):
+        positions = self.display_board()
+        board_string = [[pos[2] for pos in row] for row in positions]
+        return ''.join(sum(board_string, []))
+
+    def init_from_string(self, string):
+        m = self.board.m
+        n = self.board.n
+        positions = [(i, j, string[i * m + j])
+                     for i in range(m)
+                     for j in range(n)]
+        self.init_from_positions(positions)
+
+    def init_from_positions(self, positions):
+        x_moves = ''
+        o_moves = ''
+        m = self.board.m
+        for pos in positions:
+            i = pos[0]
+            j = pos[1]
+            index = i * m + j
+            player = pos[2]
+            if player == PlayerRole.X:
+                x_moves += str(index) + ','
+            elif player == PlayerRole.O:
+                o_moves += str(index) + ','
+            elif player == '-':
+                continue
+            else:
+                raise ValueError('Wrong player symbol.')
+        else:
+            self.board.x_moves = x_moves
+            self.board.o_moves = o_moves
 
     def get_moves(self):
         return self._extract_moves_from_string()
@@ -69,8 +103,8 @@ class BoardController(object):
             x_moves, o_moves = self._extract_moves_from_string()
             n_played_moves = len(x_moves) + len(o_moves)
             return (n_played_moves == n_max_allowed_moves and
-                    not self._did_player_win(Player.X) and
-                    not self._did_player_win(Player.O))
+                    not self._did_player_win(PlayerRole.X) and
+                    not self._did_player_win(PlayerRole.O))
         else:
             raise NotImplementedError("Must be 3x3 game.")
 
@@ -122,8 +156,8 @@ class BoardController(object):
         x_moves, o_moves = self._extract_moves_from_string()
         index = i * self.board.m + j
         if index in x_moves:
-            return i, j, Player.X
+            return i, j, PlayerRole.X
         elif index in o_moves:
-            return i, j, Player.O
+            return i, j, PlayerRole.O
         else:
             return i, j, '-'

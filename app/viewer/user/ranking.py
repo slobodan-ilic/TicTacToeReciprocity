@@ -1,7 +1,7 @@
 from . import user
 from flask import render_template, session
 from flask.ext.login import login_required
-from ...controller.game_controller import GameController, Player, Result
+from ...controller.game_controller import GameController, PlayerRole, Result
 from ...model.db_manager import DatabaseManager as dbm
 
 
@@ -27,7 +27,7 @@ def get_user_score(user_id):
     for game in games:
         gc = GameController(game.id)
         game_info = gc.get_user_game_info(user_id)
-        if game_info[1:] in [(Player.X, Result.WonByPlayerX),
-                             (Player.O, Result.WonByPlayerO)]:
+        if game_info[1:] in [(PlayerRole.X, Result.WonByPlayerX),
+                             (PlayerRole.O, Result.WonByPlayerO)]:
             score += 1
     return score

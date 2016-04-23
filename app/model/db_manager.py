@@ -50,7 +50,7 @@ class DatabaseManager(object):
         db.session.commit()
 
     @staticmethod
-    def create_new_game(m, n, k, game_type, user_x_id, user_o_id=None):
+    def create_new_game(m, n, k, game_type, user_x_id, user_o_id):
         game = Game(type=game_type, user_x_id=user_x_id, user_o_id=user_o_id)
         db.session.add(game)
         db.session.commit()
