@@ -6,7 +6,7 @@ from app.model.game import Game
 from flask.ext.script import Manager, Shell
 
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+app, socketio = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 
 
@@ -15,5 +15,10 @@ def make_shell_context():
 manager.add_command('shell', Shell(make_context=make_shell_context))
 
 
+@manager.command
+def run():
+    socketio.run(app, debug=True)
+
 if __name__ == '__main__':
     manager.run()
+    # socketio.run(app)

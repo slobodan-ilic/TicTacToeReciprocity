@@ -1,0 +1,44 @@
+{% extends "main/base.html" %}
+{% block content_body %}
+<table class="table table-striped">
+    <thead>
+        <tr class="h4">
+            <th>#</th>
+            <th>Username</th>
+            <th>Invite</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for name in names %}
+        <tr class="h4">
+            <th>{{ loop.index }}</th>
+            <td>{{ name }}</td>
+            <td>
+                <button onclick="InviteNetworkPlayer('{{ name }}')"
+                        class="btn btn-primary">
+                    Invite
+                </button>
+            </td>
+       </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+    <script type="text/javascript" src="../../static/js/socket.io.min.js"></script>
+    <script type="text/javascript" src="../../static/js/network_player.js"></script>
+    <script>
+        $(document).ready(function() {
+            var socket = io.connect('http://' + document.domain + ':' +
+                    location.port + '/Reciprocity');
+            socket.on('Invite Network Player', function(data){
+                var userId = '{{ session.get('USER_ID') }}';
+                var invitedUserId = data.invited_user_id;
+                if (userId == invitedUserId) {
+                    alert('You are invited!')
+                }
+            })
+        })
+    </script>
+{% endblock %}

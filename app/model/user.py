@@ -2,6 +2,7 @@ from ..model import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 from app import login_manager
+from datetime import datetime
 
 
 class User(UserMixin, db.Model):
@@ -9,9 +10,10 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
-    # games = db.relationship('Game', backref='user', lazy='dynamic')
     score = db.Column(db.Integer)
     password_hash = db.Column(db.String(128))
+    currently_logged_in = db.Column(db.Boolean, default=False)
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow())
 
     @property
     def password(self):

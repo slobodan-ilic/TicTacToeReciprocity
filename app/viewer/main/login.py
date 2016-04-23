@@ -3,6 +3,7 @@ from flask import render_template, redirect, url_for, flash, request, session
 from app.viewer.forms.login_form import LoginForm
 from flask.ext.login import login_user
 from app.model.user import User
+from ...model.db_manager import DatabaseManager as dbm
 
 
 @main.route('/login', methods=['GET', 'POST'])
@@ -13,6 +14,7 @@ def login():
         if user is not None and user.verify_password(frm_login.password.data):
             login_user(user)
             session['USER_ID'] = user.id
+            dbm.update_user_logged_in(user.id)
             return redirect(request.args.get('next') or
                             url_for('user.welcome'))
         flash("Invalid username or password.")

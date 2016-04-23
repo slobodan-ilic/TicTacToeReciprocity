@@ -6,3 +6,4 @@ import welcome
 import choose_game
 import my_games
 import ranking
+import choose_network_opponent

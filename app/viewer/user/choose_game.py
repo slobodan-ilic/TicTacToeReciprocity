@@ -16,4 +16,6 @@ def choose_game():
             return redirect(url_for('game.start_simple_ai_game'))
         elif 'btn_perfect_ai' in request.form:
             return redirect(url_for('game.start_perfect_ai_game'))
+        elif 'btn_network' in request.form:
+            return redirect(url_for('user.choose_network_opponent'))
     return render_template('user/choose_game.html')

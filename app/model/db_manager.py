@@ -15,6 +15,18 @@ class DatabaseManager(object):
         return User.query.filter_by(username=username).first()
 
     @staticmethod
+    def update_user_logged_in(user_id):
+        user = User.query.filter_by(id=user_id).first()
+        user.currently_logged_in = True
+        db.session.commit()
+
+    @staticmethod
+    def update_user_logged_out(user_id):
+        user = User.query.filter_by(id=user_id).first()
+        user.currently_logged_in = False
+        db.session.commit()
+
+    @staticmethod
     def get_all_user_ids():
         for user in User.query:
             yield user.id
@@ -26,13 +38,6 @@ class DatabaseManager(object):
     @staticmethod
     def get_board_by_id(board_id):
         return Board.query.filter_by(id=board_id).first()
-
-    # @staticmethod
-    # def create_new_board(m, n, k):
-    #     board = Board(m=m, n=n, k=k, x_moves='', o_moves='')
-    #     db.session.add(board)
-    #     db.session.commit()
-    #     return board
 
     @staticmethod
     def create_new_board(m, n, k, game_id):
@@ -68,3 +73,8 @@ class DatabaseManager(object):
         games = Game.query.filter(or_(Game.user_x_id==user_id,
                                       Game.user_o_id==user_id)).all()
         return games
+
+    @staticmethod
+    def get_currently_logged_users(user_id):
+        users = User.query.filter_by(currently_logged_in=True)
+        return [user.username for user in users if user.id != user_id]

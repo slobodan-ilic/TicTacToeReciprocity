@@ -13,10 +13,12 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    THREADED = True
     SQLALCHEMY_DATABASE_URI = (os.environ.get('DEV_DATABASE_URL') or
                                'sqlite:///../data-dev.db')
     MAX_BOARD_SIZE = 10
     MAX_DB_STRING_SIZE = MAX_BOARD_SIZE ** 2 * 4
+    LOGOUT_AFTER = 60 * 5
 
 
 class TestingConfig(Config):
