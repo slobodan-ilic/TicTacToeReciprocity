@@ -46,6 +46,7 @@
 {% block scripts %}
     {{ super() }}
     <script type="text/javascript" src="../../static/js/socket.io.min.js"></script>
+    <script type="text/javascript" src="../../static/js/network_player.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             var socket = io.connect('http://' + document.domain + ':' +
@@ -54,30 +55,7 @@
                 var currentUserId = '{{ session['USER_ID'] }}';
                 var notifiedUserId = data.user_id;
                 if (currentUserId == notifiedUserId) {
-                    var board = data.updated_board;
-                    var result = data.result;
-                    if ((result != 'Player X Turn') &&
-                            (result != 'Player O Turn')) {
-                        $('#frm_get_result').submit();
-                    }
-                    var m = data.updated_board.length;
-                    for (var i=0; i<m; i++) {
-                        var row = data.updated_board[i];
-                        var n = row.length;
-                        for (var j=0; j<n; j++) {
-                            var index = i * m + j;
-                            var pos = row[j];
-                            var html;
-                            if (pos[2] == 'O') {
-                                html = '<i class="glyphicon glyphicon-unchecked"></i>';
-                                $('#btn_' + index).html(html);
-                            }
-                            else if (pos[2] == 'X') {
-                                html = '<i class="glyphicon glyphicon-remove"></i>';
-                                $('#btn_' + index).html(html);
-                            }
-                        }
-                    }
+                    UpdateBoardOnSocketIO(data);
                 }
             });
         });
