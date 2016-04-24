@@ -1,0 +1,23 @@
+{% extends "modals/modal_base.html" %}
+{% block modal_id %}mdl_user_invited{% endblock %}
+{% block modal_title %}Invitation{% endblock %}
+{% block modal_close_button %}{{ super() }}{% endblock %}
+
+{% block modal_body %}
+    <h3 class="text-center">
+        <p>Do you want to join the network game?</p>
+    </h3>
+{% endblock %}
+
+{% block modal_footer %}
+    <form method="post" role="form"
+          action="{{ url_for('game.start_network_game') }}">
+        <input hidden="hidden" name="inp_inviter" id="inp_inviter_id">
+        <button type="submit" class="btn btn-primary">
+            Accept
+        </button>
+        <button class="btn btn-default" data-dismiss="modal">
+            Decline
+        </button>
+    </form>
+{% endblock %}

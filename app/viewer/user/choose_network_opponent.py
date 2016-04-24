@@ -21,9 +21,15 @@ def choose_network_opponent():
              namespace=SocketNamespaces.Reciprocity)
 @login_required
 def invite_player(msg):
-    print "Invited player: {0}".format(msg)
+    current_user_id = session.get('USER_ID')
     invited_user = dbm.get_user_by_name(msg['invitedUserName'])
     invited_user_id = invited_user.id
-    data = {'invited_user_id': invited_user_id}
+    data = {
+        'invitee_id': invited_user_id,
+        'inviter_id': current_user_id
+    }
+    print "choose partner"
+    print "inviter: ", current_user_id
+    print "invitee: ", invited_user_id
     socketio.emit(SocketEvents.InviteNetworkPlayer, data,
                   namespace=SocketNamespaces.Reciprocity)

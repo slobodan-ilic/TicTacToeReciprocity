@@ -34,6 +34,10 @@ class GameController(object):
                     self.player_x.notify()
                 elif res == Result.PlayerOTurn:
                     self.player_o.notify()
+                elif res in [Result.WonByPlayerX, Result.WonByPlayerO,
+                             Result.Draw]:
+                    self.player_x.notify()
+                    self.player_o.notify()
         return self.board_ctrl.result()
 
     def get_user_game_info(self, user_id):
@@ -66,6 +70,16 @@ class GameController(object):
                                           PlayerType.Human, self)
             self.player_o = create_player(self.game.user_o_id,
                                           PlayerType.Human, self)
+        elif self.game.type == GameType.NetworkHumanVsHuman:
+            self.player_x = create_player(self.game.user_x_id,
+                                          PlayerType.Network, self)
+            self.player_o = create_player(self.game.user_o_id,
+                                          PlayerType.Network, self)
+        else:
+            raise TypeError('Unknown game type.')
+
+        print "user x id: ", self.game.user_x_id
+        print "user o id: ", self.game.user_o_id
 
         self.board_ctrl = BoardController(self.game.board.first().id)
 

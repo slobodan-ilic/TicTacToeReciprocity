@@ -23,7 +23,13 @@
     {% endfor %}
     </tbody>
 </table>
+<form id="frm_accepted_game" method="post" role="form" hidden="hidden"
+      action="{{ url_for('game.network_play') }}">
+    <input id="inp_game_id" name="inp_game">
+</form>
+{% include "modals/user_invited.html" %}
 {% endblock %}
+
 {% block scripts %}
 {{ super() }}
     <script type="text/javascript" src="../../static/js/socket.io.min.js"></script>
@@ -33,10 +39,21 @@
             var socket = io.connect('http://' + document.domain + ':' +
                     location.port + '/Reciprocity');
             socket.on('Invite Network Player', function(data){
-                var userId = '{{ session.get('USER_ID') }}';
-                var invitedUserId = data.invited_user_id;
-                if (userId == invitedUserId) {
-                    alert('You are invited!')
+                var currentUserId = '{{ session.get('USER_ID') }}';
+                var inviterId = data.inviter_id;
+                var inviteeId = data.invitee_id;
+                if (currentUserId == inviteeId) {
+                    $('#inp_inviter_id').val(inviterId);
+                    $('#mdl_user_invited').modal('show');
+                }
+            })
+            socket.on('Accepted Network Game', function(data){
+                var currentUserId = '{{ session.get('USER_ID') }}';
+                var inviterId = data.inviter_id;
+                var gameId = data.game_id;
+                if (currentUserId == inviterId) {
+                    $('#inp_game_id').val(gameId);
+                    $('#frm_accepted_game').submit();
                 }
             })
         })

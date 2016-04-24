@@ -2,13 +2,16 @@
 {% block content_body %}
 <form method="post">
     {% for row in board %}
+        {% set i = loop.index - 1 %}
         <div class="row">
             {% for col in row %}
-                <div class="col-lg-4 rc_tic_tac_col">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 rc_tic_tac_col">
+                    {% set j = loop.index -1 %}
+                    {% set index = i * 3 + j %}
                     {% if col[2] != '-' %}
                         <button type="submit" value="{{ col }}" name="btn_play"
                                 class="btn btn-block btn-default rc_tic_tac_btn"
-                                disabled="disabled">
+                                id="btn_{{ index }}" disabled="disabled">
                             {% if col[2] == 'X' %}
                                 <i class="glyphicon glyphicon-remove"></i>
                             {% elif col[2] == 'O' %}
@@ -17,7 +20,7 @@
                         </button>
                     {% else %}
                         <button type="submit" value="{{ col }}" name="btn_play"
-                                class="btn btn-block btn-default rc_tic_tac_btn">
+                                id="btn_{{ index }}" class="btn btn-block btn-default rc_tic_tac_btn">
                             <i class="glyphicon glyphicon-minus"></i>
                         </button>
                     {% endif %}
@@ -29,6 +32,9 @@
 {% endblock %}
 {% block content_footer %}
     <div class="panel-footer text-right">
+        <form id="frm_get_result" method="get"
+              action="{{ url_for('game.result') }}">
+        </form>
         <form method="post">
             <button type="submit" class="btn btn-large"
                     name="btn_quit">
@@ -36,4 +42,44 @@
             </button>
         </form>
     </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="../../static/js/socket.io.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var socket = io.connect('http://' + document.domain + ':' +
+                    location.port + '/Reciprocity');
+            socket.on('Players Turn', function(data) {
+                var currentUserId = '{{ session['USER_ID'] }}';
+                var notifiedUserId = data.user_id;
+                if (currentUserId == notifiedUserId) {
+                    var board = data.updated_board;
+                    var result = data.result;
+                    if ((result != 'Player X Turn') &&
+                            (result != 'Player O Turn')) {
+                        $('#frm_get_result').submit();
+                    }
+                    var m = data.updated_board.length;
+                    for (var i=0; i<m; i++) {
+                        var row = data.updated_board[i];
+                        var n = row.length;
+                        for (var j=0; j<n; j++) {
+                            var index = i * m + j;
+                            var pos = row[j];
+                            var html;
+                            if (pos[2] == 'O') {
+                                html = '<i class="glyphicon glyphicon-unchecked"></i>';
+                                $('#btn_' + index).html(html);
+                            }
+                            else if (pos[2] == 'X') {
+                                html = '<i class="glyphicon glyphicon-remove"></i>';
+                                $('#btn_' + index).html(html);
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}
