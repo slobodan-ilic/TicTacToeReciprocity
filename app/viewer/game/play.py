@@ -52,6 +52,7 @@ def start_simple_ai_game():
     session['GAME_ID'] = game_id
     return redirect(url_for('game.play'))
 
+
 @game.route('/start_perfect_ai_game')
 def start_perfect_ai_game():
     user_id = session.get('USER_ID', None)
