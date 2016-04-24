@@ -1,5 +1,4 @@
 from tests.test_basics import BasicTestCase
-from app.model import db
 from app.model.user import User
 from uuid import uuid4
 
