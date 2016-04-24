@@ -12,10 +12,14 @@ from ...model.enums.socket_namespaces import SocketNamespaces
 @game.route('/network_play', methods=['GET', 'POST'])
 @login_required
 def network_play():
+    # TODO: Refactor this to only use 'game.play' viewer function.
     user_id = session.get('USER_ID')
     game_id = session.get('GAME_ID', None) or int(request.form['inp_game'])
     session['GAME_ID'] = game_id
     game_ctrl = GameController(game_id)
+    if game_ctrl.game is None:
+        # TODO: Add info about other user quitting the game.
+        return redirect(url_for('user.welcome'))
     if request.method == 'POST':
         if 'btn_play' in request.form:
             pos = make_tuple(request.form['btn_play'])
@@ -23,6 +27,10 @@ def network_play():
                                                 Result.WonByPlayerX,
                                                 Result.Draw]:
                 return redirect(url_for('game.result'))
+        elif 'btn_quit' in request.form:
+            session.pop('GAME_ID')
+            game_ctrl.quit_game()
+            return redirect(url_for('user.welcome'))
         return redirect(url_for('game.network_play'))
     board = game_ctrl.board_ctrl.display_board()
     return render_template('game/play.html', board=board)
