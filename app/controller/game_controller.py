@@ -78,9 +78,6 @@ class GameController(object):
         else:
             raise TypeError('Unknown game type.')
 
-        print "user x id: ", self.game.user_x_id
-        print "user o id: ", self.game.user_o_id
-
         self.board_ctrl = BoardController(self.game.board.first().id)
 
     def _who_is_trying_to_play(self, user_id):
@@ -89,4 +86,4 @@ class GameController(object):
         elif user_id == self.player_o.user_id:
             return PlayerRole.O
         else:
-            raise Exception("Unknown user tried to play!")
+            raise ValueError("Unknown user tried to play!")
