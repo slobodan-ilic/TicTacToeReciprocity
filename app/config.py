@@ -25,6 +25,7 @@ class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = (os.environ.get('DEV_DATABASE_URL') or
                                'sqlite:///../data-test.db')
+    WTF_CSRF_ENABLED = False
     MAX_BOARD_SIZE = 10
     MAX_DB_STRING_SIZE = MAX_BOARD_SIZE ** 2 * 4
 
