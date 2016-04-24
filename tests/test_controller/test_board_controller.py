@@ -3,6 +3,12 @@ from app.controller.game_controller import GameController, GameType
 
 
 class TestBoardController(BasicTestCase):
+    empty_table_string = (
+        "---"
+        "---"
+        "---"
+    )
+
     def create_and_init_board_controller(self):
         gc = GameController()
         gc.create_new_game(3, 3, 3, GameType.SingleUserHumanVsHuman,
@@ -62,3 +68,42 @@ class TestBoardController(BasicTestCase):
         self.assertTrue(positions == expected_positions)
         table_string = bc.display_board_as_string()
         self.assertTrue(table_string == expected_table_string)
+
+    def test_x_player_plays_opening_at_center(self):
+        bc = self.create_and_init_board_controller()
+        bc.init_from_string(self.empty_table_string)
+        pos = (1, 1, 'X')
+        bc.play(pos)
+        expected_board_string = (
+            "---"
+            "-X-"
+            "---"
+        )
+        result_board_string = bc.display_board_as_string()
+        self.assertTrue(expected_board_string == result_board_string)
+
+    def test_x_player_plays_opening_at_upper_right(self):
+        bc = self.create_and_init_board_controller()
+        bc.init_from_string(self.empty_table_string)
+        pos = (0, 0, 'X')
+        bc.play(pos)
+        expected_board_string = (
+            "X--"
+            "---"
+            "---"
+        )
+        result_board_string = bc.display_board_as_string()
+        self.assertTrue(expected_board_string == result_board_string)
+
+    def test_x_player_plays_opening_at_upper_middle(self):
+        bc = self.create_and_init_board_controller()
+        bc.init_from_string(self.empty_table_string)
+        pos = (0, 1, 'X')
+        bc.play(pos)
+        expected_board_string = (
+            "-X-"
+            "---"
+            "---"
+        )
+        result_board_string = bc.display_board_as_string()
+        self.assertTrue(expected_board_string == result_board_string)

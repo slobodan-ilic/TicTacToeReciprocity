@@ -16,7 +16,3 @@ class Board(db.Model):
     x_moves = db.Column(db.String(MAX_DB_STRING_SIZE))
     o_moves = db.Column(db.String(MAX_DB_STRING_SIZE))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=False)
-    # game = db.relationship('Game',
-    #                        backref=db.backref('Board',
-    #                                           single_parent=True,
-    #                                           cascade='all, delete'))

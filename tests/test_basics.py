@@ -6,6 +6,7 @@ from app import create_app, db
 class BasicTestCase(unittest.TestCase):
     def setUp(self):
         self.app, self.socketio = create_app('testing')
+        self.cli = self.app.test_client()
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
